@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CineVerse — Movie Discovery</title>
-    <!-- Font Awesome for icons -->
+    <title>CineVerse — Movies by Country</title>
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
@@ -49,7 +49,6 @@
             line-height: 1.6;
         }
 
-        /* ===== SCROLLBAR ===== */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -64,7 +63,6 @@
             background: var(--accent-secondary);
         }
 
-        /* ===== UTILITY ===== */
         .container {
             max-width: 1280px;
             margin: 0 auto;
@@ -97,7 +95,7 @@
             color: #fff;
         }
 
-        /* ===== HEADER / NAV ===== */
+        /* ===== HEADER ===== */
         .header {
             position: sticky;
             top: 0;
@@ -275,13 +273,25 @@
             letter-spacing: 0.5px;
         }
 
-        /* ===== GENRE FILTERS ===== */
-        .filters {
+        /* ===== FILTERS (genre & country) ===== */
+        .filters-section {
+            margin: 10px 0 20px;
+        }
+        .filters-section .filter-group {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-            margin: 10px 0 28px;
+            margin-bottom: 12px;
             justify-content: center;
+        }
+        .filter-group .filter-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-right: 6px;
         }
         .filter-btn {
             padding: 8px 20px;
@@ -395,6 +405,20 @@
             color: var(--text-secondary);
         }
 
+        .movie-card .poster .country-badge {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
         .movie-card .info {
             padding: 14px 16px 16px;
             flex: 1;
@@ -441,7 +465,7 @@
             font-size: 0.7rem;
         }
 
-        /* ===== LOADING ===== */
+        /* ===== LOADING & NO RESULTS ===== */
         .loading {
             display: flex;
             justify-content: center;
@@ -604,6 +628,15 @@
             color: var(--text-secondary);
             border: 1px solid var(--border-color);
         }
+        .modal-body .modal-country {
+            margin-top: 12px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        .modal-body .modal-country i {
+            color: var(--accent);
+            margin-right: 6px;
+        }
 
         /* ===== FOOTER ===== */
         .footer {
@@ -665,11 +698,11 @@
             .modal-body .modal-title {
                 font-size: 1.4rem;
             }
-            .filters {
-                gap: 6px;
-            }
             .filter-btn {
                 padding: 6px 14px;
+                font-size: 0.7rem;
+            }
+            .filter-group .filter-label {
                 font-size: 0.7rem;
             }
         }
@@ -690,7 +723,7 @@
             }
         }
 
-        /* ===== ANIMATIONS ===== */
+        /* ===== CARD ANIMATION ===== */
         .movie-card {
             opacity: 0;
             animation: fadeUp 0.5s ease forwards;
@@ -705,36 +738,16 @@
                 transform: translateY(0);
             }
         }
-        .movie-card:nth-child(1) {
-            animation-delay: 0.02s;
-        }
-        .movie-card:nth-child(2) {
-            animation-delay: 0.04s;
-        }
-        .movie-card:nth-child(3) {
-            animation-delay: 0.06s;
-        }
-        .movie-card:nth-child(4) {
-            animation-delay: 0.08s;
-        }
-        .movie-card:nth-child(5) {
-            animation-delay: 0.10s;
-        }
-        .movie-card:nth-child(6) {
-            animation-delay: 0.12s;
-        }
-        .movie-card:nth-child(7) {
-            animation-delay: 0.14s;
-        }
-        .movie-card:nth-child(8) {
-            animation-delay: 0.16s;
-        }
-        .movie-card:nth-child(9) {
-            animation-delay: 0.18s;
-        }
-        .movie-card:nth-child(10) {
-            animation-delay: 0.20s;
-        }
+        .movie-card:nth-child(1) { animation-delay: 0.02s; }
+        .movie-card:nth-child(2) { animation-delay: 0.04s; }
+        .movie-card:nth-child(3) { animation-delay: 0.06s; }
+        .movie-card:nth-child(4) { animation-delay: 0.08s; }
+        .movie-card:nth-child(5) { animation-delay: 0.10s; }
+        .movie-card:nth-child(6) { animation-delay: 0.12s; }
+        .movie-card:nth-child(7) { animation-delay: 0.14s; }
+        .movie-card:nth-child(8) { animation-delay: 0.16s; }
+        .movie-card:nth-child(9) { animation-delay: 0.18s; }
+        .movie-card:nth-child(10) { animation-delay: 0.20s; }
     </style>
 </head>
 <body>
@@ -757,7 +770,7 @@
                     autocomplete="off"
                     />
                 </div>
-                <button class="btn-icon" id="themeToggle" title="Toggle theme (light/dark)">
+                <button class="btn-icon" id="themeToggle" title="Toggle theme">
                     <i class="fas fa-moon"></i>
                 </button>
             </div>
@@ -768,12 +781,12 @@
     <section class="hero">
         <div class="container hero-content">
             <h1>
-                Discover <span class="highlight">Amazing</span><br />
-                Movies, All in One Place
+                Discover <span class="highlight">Global</span><br />
+                Cinema by Country
             </h1>
             <p>
-                Browse our curated collection of the best films. From blockbusters
-                to indie gems — find your next watch.
+                Explore movies from all over the world. Filter by genre or
+                country to find your next favourite film.
             </p>
             <div class="hero-stats">
                 <div class="stat">
@@ -785,6 +798,10 @@
                     <div class="label">Genres</div>
                 </div>
                 <div class="stat">
+                    <div class="number" id="countryCount">0</div>
+                    <div class="label">Countries</div>
+                </div>
+                <div class="stat">
                     <div class="number" id="ratingAvg">0</div>
                     <div class="label">Avg. Rating</div>
                 </div>
@@ -794,25 +811,32 @@
 
     <!-- ===== MAIN CONTENT ===== -->
     <main class="container">
-        <!-- Genre Filters -->
-        <div class="filters" id="filtersContainer">
-            <button class="filter-btn active" data-genre="all">All</button>
+        <!-- Filters: Genre & Country -->
+        <div class="filters-section">
+            <!-- Genre filter -->
+            <div class="filter-group" id="genreFilters">
+                <span class="filter-label"><i class="fas fa-tags"></i> Genre</span>
+                <button class="filter-btn active" data-type="genre" data-value="all">All</button>
+            </div>
+            <!-- Country filter -->
+            <div class="filter-group" id="countryFilters">
+                <span class="filter-label"><i class="fas fa-globe"></i> Country</span>
+                <button class="filter-btn active" data-type="country" data-value="all">All</button>
+            </div>
         </div>
 
         <!-- Movie Grid -->
         <div id="moviesGrid" class="movies-grid"></div>
 
-        <!-- Loading -->
+        <!-- Loading & No Results -->
         <div id="loadingState" class="loading" style="display: none;">
             <div class="spinner"></div>
             <span>Loading movies...</span>
         </div>
-
-        <!-- No Results -->
         <div id="noResults" class="no-results" style="display: none;">
             <i class="fas fa-film"></i>
             <h3>No movies found</h3>
-            <p>Try adjusting your search or filter.</p>
+            <p>Try adjusting your search or filters.</p>
         </div>
     </main>
 
@@ -830,6 +854,7 @@
                     <span><i class="fas fa-calendar-alt"></i> <span id="modalYear">—</span></span>
                     <span><i class="fas fa-star" style="color: var(--rating-color);"></i> <span id="modalRating">—</span></span>
                     <span><i class="fas fa-clock"></i> <span id="modalRuntime">—</span></span>
+                    <span><i class="fas fa-globe"></i> <span id="modalCountry">—</span></span>
                 </div>
                 <p class="modal-overview" id="modalOverview">—</p>
                 <div class="modal-genres" id="modalGenres"></div>
@@ -850,8 +875,7 @@
 
     <script>
         // ============================================================
-        //  DATA — Realistic movie catalog (mock)
-        //  Posters are from TMDB CDN (publicly accessible paths)
+        //  DATA — Expanded with 15 Asian dramas, includes 'country'
         // ============================================================
         const MOVIES = [{
             id: 1,
@@ -863,6 +887,7 @@
             tagline: 'Your mind is the scene of the crime.',
             overview: 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.',
             genres: ['Sci-Fi', 'Action', 'Thriller'],
+            country: 'USA',
             poster: '/9gk7adHY1V0J2G6wjWITVJksgNA.jpg',
             backdrop: '/s3TBrgb1oXx2KN9Z4klyBDtRz85.jpg'
         }, {
@@ -875,6 +900,7 @@
             tagline: 'Why so serious?',
             overview: 'When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.',
             genres: ['Action', 'Crime', 'Drama'],
+            country: 'USA',
             poster: '/qJ2tW6WMUDux911r6m7haRef0WH.jpg',
             backdrop: '/nMKdUUepR0i5zn0y1T4CsSB5chy.jpg'
         }, {
@@ -887,6 +913,7 @@
             tagline: 'Mankind was born on Earth. It was never meant to die here.',
             overview: 'A team of explorers travel through a wormhole in space in an attempt to ensure humanity\'s survival.',
             genres: ['Sci-Fi', 'Adventure', 'Drama'],
+            country: 'USA',
             poster: '/gEU2QniE6E77NI6lCU6MxlNvHxR.jpg',
             backdrop: '/xJHokMbljvjADYdit5fK5VQsXEG.jpg'
         }, {
@@ -899,6 +926,7 @@
             tagline: 'Welcome to the real world.',
             overview: 'A computer programmer discovers that reality as he knows it is a simulation created by machines, and joins a rebellion to break free.',
             genres: ['Sci-Fi', 'Action'],
+            country: 'USA',
             poster: '/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg',
             backdrop: '/fIu1B1N1bLWl0gJX0OF3yXz0w8I.jpg'
         }, {
@@ -911,6 +939,7 @@
             tagline: 'Act like you own the place.',
             overview: 'A poor family schemes to become employed by a wealthy family and infiltrate their household, but their plan goes dangerously awry.',
             genres: ['Thriller', 'Drama', 'Comedy'],
+            country: 'South Korea',
             poster: '/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg',
             backdrop: '/TU9NIjwzjoKPwQHoHshkFcETCG.jpg'
         }, {
@@ -923,6 +952,7 @@
             tagline: 'A journey beyond your imagination.',
             overview: 'During her family\'s move to the suburbs, a sullen 10-year-old girl wanders into a world ruled by gods, witches, and spirits, and where humans are changed into beasts.',
             genres: ['Animation', 'Adventure', 'Fantasy'],
+            country: 'Japan',
             poster: '/39wmItIWsg5sZMyRUHLkWBcuVCM.jpg',
             backdrop: '/9YjzWnSz9xqbiIwQ2rGfDq6MEm2.jpg'
         }, {
@@ -935,6 +965,7 @@
             tagline: 'An offer you can\'t refuse.',
             overview: 'The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.',
             genres: ['Crime', 'Drama'],
+            country: 'USA',
             poster: '/3bhkrj58Vtu7enYsRolD1fZdja1.jpg',
             backdrop: '/tmU7GeKVybMWFButWEGl2M4GeiP.jpg'
         }, {
@@ -947,6 +978,7 @@
             tagline: 'You won\'t know the facts until you\'ve seen the fiction.',
             overview: 'The lives of two mob hitmen, a boxer, a gangster\'s wife, and a pair of diner bandits intertwine in four tales of violence and redemption.',
             genres: ['Crime', 'Drama'],
+            country: 'USA',
             poster: '/d5iIlFn5s0ImszYzBPb8vIfUBHJ.jpg',
             backdrop: '/suaEOtk1N1sgg2MTM7oZd2cfVp3.jpg'
         }, {
@@ -959,6 +991,7 @@
             tagline: 'Fear can hold you prisoner. Hope can set you free.',
             overview: 'Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.',
             genres: ['Drama'],
+            country: 'USA',
             poster: '/q6y0Go1tsGEsmtFryDOJo3dEmqu.jpg',
             backdrop: '/kXfqcdQKsToO0OUXHcrrNCHDBzO.jpg'
         }, {
@@ -971,6 +1004,7 @@
             tagline: 'You don\'t get to 500 million friends without making a few enemies.',
             overview: 'As Harvard student Mark Zuckerberg creates the social networking site that would become known as Facebook, he is sued by the twins who claimed he stole their idea.',
             genres: ['Drama', 'Biography'],
+            country: 'USA',
             poster: '/1h2IQFycL6fb5aeUGISrUitKbSX.jpg',
             backdrop: '/nz3qCu3Dho5cXx3pPGKdU0n7hnG.jpg'
         }, {
@@ -983,6 +1017,7 @@
             tagline: 'It begins.',
             overview: 'A mythic and emotionally charged hero\'s journey, Dune tells the story of Paul Atreides, a brilliant and gifted young man born into a great destiny beyond his understanding.',
             genres: ['Sci-Fi', 'Adventure', 'Fantasy'],
+            country: 'USA',
             poster: '/d5NXSklXo0qyIYkgV94XAgMIckC.jpg',
             backdrop: '/d6C1mzGdb0bO3ZmhTHqOcFqLl8N.jpg'
         }, {
@@ -995,6 +1030,7 @@
             tagline: 'The universe is so much bigger than you realize.',
             overview: 'An aging Chinese immigrant is swept up in an insane adventure, where she alone can save the world by exploring other universes connecting with the lives she could have led.',
             genres: ['Action', 'Adventure', 'Sci-Fi'],
+            country: 'USA',
             poster: '/w3LxiVYdWWRvEVdn5RYq6jIqkb1.jpg',
             backdrop: '/tElnmtQ6yz1PjN1yPN0IxKB2OjA.jpg'
         }, {
@@ -1007,6 +1043,7 @@
             tagline: 'Vengeance.',
             overview: 'When a sadistic serial killer begins murdering key political figures in Gotham, Batman is forced to investigate the city\'s hidden corruption and question his family\'s involvement.',
             genres: ['Action', 'Crime', 'Drama'],
+            country: 'USA',
             poster: '/74xTEgt7R36Fpooo50r9T25onhq.jpg',
             backdrop: '/xHrp2pqmN9Pr0YjTdY5P4D4jX6G.jpg'
         }, {
@@ -1019,6 +1056,7 @@
             tagline: 'The world forever changes.',
             overview: 'The story of J. Robert Oppenheimer and his role in the development of the atomic bomb.',
             genres: ['Drama', 'History', 'Biography'],
+            country: 'USA',
             poster: '/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg',
             backdrop: '/fm6Kq3L3Q5bW8w2lA8E1ZP7m0Xh.jpg'
         }, {
@@ -1031,15 +1069,279 @@
             tagline: 'She\'s everything. He\'s just Ken.',
             overview: 'Barbie and Ken are having the time of their lives in the colorful and seemingly perfect world of Barbie Land. However, when they get a chance to go to the real world, they soon discover the joys and perils of living among humans.',
             genres: ['Comedy', 'Adventure', 'Fantasy'],
+            country: 'USA',
             poster: '/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg',
             backdrop: '/nlM6aXH0CG7u9C2eI77Vb4cjg9V.jpg'
+        }, {
+            id: 16,
+            title: 'Amélie',
+            year: 2001,
+            rating: 8.3,
+            votes: 9876,
+            runtime: '2h 2m',
+            tagline: 'She\'ll change your life.',
+            overview: 'Amélie is an innocent and naive girl in Paris with her own sense of justice. She decides to help those around her and, along the way, discovers love.',
+            genres: ['Comedy', 'Romance'],
+            country: 'France',
+            poster: '/pBp6UxdtQdIzPkFX69ZtHl4xXl.jpg',
+            backdrop: '/1nlEIQiNAHNmH3trS7bHVElzDAK.jpg'
+        }, {
+            id: 17,
+            title: 'The Secret in Their Eyes',
+            year: 2009,
+            rating: 8.2,
+            votes: 6543,
+            runtime: '2h 9m',
+            tagline: 'A crime that will take 25 years to solve.',
+            overview: 'A retired legal counselor writes a novel hoping to find closure for one of his past unresolved homicide cases and for his unreciprocated love with his superior.',
+            genres: ['Drama', 'Crime', 'Romance'],
+            country: 'Argentina',
+            poster: '/4Araae3JZRVDJbtSIfPLYLoxS9H.jpg',
+            backdrop: '/hM3dyYtnASypKpXxOBnI0Tg6duI.jpg'
+        }, {
+            id: 18,
+            title: 'The Handmaiden',
+            year: 2016,
+            rating: 8.1,
+            votes: 7890,
+            runtime: '2h 24m',
+            tagline: 'A story of deception, desire, and revenge.',
+            overview: 'A Japanese heiress falls in love with her handmaiden, but the handmaiden is secretly plotting against her.',
+            genres: ['Romance', 'Drama', 'Thriller'],
+            country: 'South Korea',
+            poster: '/7TjauzD0y7k8dFhTMmMfgZPUZTE.jpg',
+            backdrop: '/l3t7QrE6MvFmmfEo2eKd6TtL4F.jpg'
+        }, {
+            id: 19,
+            title: 'City of God',
+            year: 2002,
+            rating: 8.6,
+            votes: 11234,
+            runtime: '2h 10m',
+            tagline: 'If you run, the beast catches you; if you stay, the beast eats you.',
+            overview: 'In the slums of Rio, two kids\' paths diverge as one struggles to become a photographer and the other a kingpin.',
+            genres: ['Crime', 'Drama'],
+            country: 'Brazil',
+            poster: '/k7eYd8A2CqgKz8aK5wF6t1WZ6l.jpg',
+            backdrop: '/8j9T1mzZgH7l1gXv1mY0dLJXZ0k.jpg'
+        }, {
+            id: 20,
+            title: 'The Lives of Others',
+            year: 2006,
+            rating: 8.4,
+            votes: 8765,
+            runtime: '2h 17m',
+            tagline: 'In 1984 East Berlin, a secret police agent listens to the lives of others.',
+            overview: 'In 1984 East Berlin, an agent of the secret police, conducting surveillance on a writer and his lover, finds himself becoming increasingly absorbed by their lives.',
+            genres: ['Drama', 'Thriller'],
+            country: 'Germany',
+            poster: '/5gX6lB7dK4gV9q9r3f1lFdZv1b.jpg',
+            backdrop: '/aQ5sA7fG6JhLk8mN0bO3pR2tX4c.jpg'
+        },
+
+        // ===== NEW ASIAN DRAMAS & MOVIES (15 added) =====
+        {
+            id: 21,
+            title: 'Train to Busan',
+            year: 2016,
+            rating: 7.6,
+            votes: 15432,
+            runtime: '1h 58m',
+            tagline: 'The fastest train to disaster.',
+            overview: 'While a zombie virus breaks out in South Korea, passengers struggle to survive on the train from Seoul to Busan.',
+            genres: ['Action', 'Thriller', 'Horror'],
+            country: 'South Korea',
+            poster: '/mZ1iP7qB1R0q7p1Q8i1Fj1K1l1.jpg',
+            backdrop: '/d6C1mzGdb0bO3ZmhTHqOcFqLl8N.jpg'
+        }, {
+            id: 22,
+            title: 'Oldboy',
+            year: 2003,
+            rating: 8.4,
+            votes: 13456,
+            runtime: '2h 0m',
+            tagline: '15 years of imprisonment, five days of vengeance.',
+            overview: 'After being kidnapped and imprisoned for 15 years, Oh Dae-Su is released, only to find himself in a web of revenge and conspiracy.',
+            genres: ['Thriller', 'Drama', 'Mystery'],
+            country: 'South Korea',
+            poster: '/pUc61b6DFQzEz8jC02J7wHtdwY2.jpg',
+            backdrop: '/mU7Y4s7Z3x2Z2s2vV2s2Y2s2s2.jpg'
+        }, {
+            id: 23,
+            title: 'Your Name',
+            year: 2016,
+            rating: 8.4,
+            votes: 12345,
+            runtime: '1h 46m',
+            tagline: 'The two of us, together.',
+            overview: 'Two teenagers, a boy and a girl, swap bodies and lives, leading to a beautiful and emotional journey that transcends time and space.',
+            genres: ['Animation', 'Romance', 'Fantasy'],
+            country: 'Japan',
+            poster: '/q719jXXEzOoYaps6babgKnONONX.jpg',
+            backdrop: '/m9qB8w2s4s2dKp2n4m9Qb0J7W4V.jpg'
+        }, {
+            id: 24,
+            title: 'Memories of Murder',
+            year: 2003,
+            rating: 8.1,
+            votes: 9876,
+            runtime: '2h 11m',
+            tagline: 'The serial killer is among us.',
+            overview: 'In a small Korean province, two detectives investigate a series of brutal rapes and murders. Based on the true story of Korea\'s first serial murder case.',
+            genres: ['Crime', 'Drama', 'Thriller'],
+            country: 'South Korea',
+            poster: '/9U5r7y8W6e4bH3mP2nI6jFd0s1a.jpg',
+            backdrop: '/c7Z7l7d7n7p7i7t7E7D7r7m7w7.jpg'
+        }, {
+            id: 25,
+            title: 'The Wailing',
+            year: 2016,
+            rating: 7.5,
+            votes: 8765,
+            runtime: '2h 36m',
+            tagline: 'The devil is in the details.',
+            overview: 'A mysterious stranger arrives in a rural Korean village, unleashing a wave of terror. A policeman must investigate the strange events and protect his family.',
+            genres: ['Horror', 'Thriller', 'Mystery'],
+            country: 'South Korea',
+            poster: '/8H7l3Y8h5p6j9kL2mN0bO2rP5uX.jpg',
+            backdrop: '/kXfqcdQKsToO0OUXHcrrNCHDBzO.jpg'
+        }, {
+            id: 26,
+            title: 'A Taxi Driver',
+            year: 2017,
+            rating: 7.9,
+            votes: 7654,
+            runtime: '2h 17m',
+            tagline: 'One man\'s journey to save a city.',
+            overview: 'A Seoul taxi driver gets involved in the 1980 Gwangju uprising when he takes a German journalist to the city during the military crackdown.',
+            genres: ['Drama', 'History'],
+            country: 'South Korea',
+            poster: '/3D5vX8s9f4g2jK7mN4cV6bH8rT.jpg',
+            backdrop: '/nz3qCu3Dho5cXx3pPGKdU0n7hnG.jpg'
+        }, {
+            id: 27,
+            title: 'Burning',
+            year: 2018,
+            rating: 7.5,
+            votes: 6543,
+            runtime: '2h 28m',
+            tagline: 'The mystery of love and obsession.',
+            overview: 'A young man reunites with a childhood friend, but becomes entangled in a mysterious relationship with her and a wealthy, enigmatic man she meets.',
+            genres: ['Drama', 'Mystery'],
+            country: 'South Korea',
+            poster: '/4Araae3JZRVDJbtSIfPLYLoxS9H.jpg',
+            backdrop: '/l3t7QrE6MvFmmfEo2eKd6TtL4F.jpg'
+        }, {
+            id: 28,
+            title: 'Decision to Leave',
+            year: 2022,
+            rating: 7.3,
+            votes: 5432,
+            runtime: '2h 19m',
+            tagline: 'A detective falls in love with the prime suspect.',
+            overview: 'A detective investigating a man\'s death in the mountains ends up meeting the dead man\'s mysterious wife, leading to a complex case of obsession and deception.',
+            genres: ['Romance', 'Crime', 'Drama'],
+            country: 'South Korea',
+            poster: '/5gX6lB7dK4gV9q9r3f1lFdZv1b.jpg',
+            backdrop: '/aQ5sA7fG6JhLk8mN0bO3pR2tX4c.jpg'
+        }, {
+            id: 29,
+            title: 'Drive My Car',
+            year: 2021,
+            rating: 7.6,
+            votes: 4987,
+            runtime: '2h 59m',
+            tagline: 'The road to healing.',
+            overview: 'A stage actor and director learns to cope with the loss of his wife while preparing to direct a production of Uncle Vanya in Hiroshima.',
+            genres: ['Drama'],
+            country: 'Japan',
+            poster: '/1V8x8f0J2l3h5j7k9l1m2n4p6r.jpg',
+            backdrop: '/xJHokMbljvjADYdit5fK5VQsXEG.jpg'
+        }, {
+            id: 30,
+            title: 'Shoplifters',
+            year: 2018,
+            rating: 7.9,
+            votes: 5678,
+            runtime: '2h 1m',
+            tagline: 'We are not family, but we are bound by love.',
+            overview: 'A family of small-time thieves takes in a young girl they find on the street, leading to a heartwarming and heartbreaking exploration of what it means to be a family.',
+            genres: ['Crime', 'Drama'],
+            country: 'Japan',
+            poster: '/8H7l3Y8h5p6j9kL2mN0bO2rP5uX.jpg',
+            backdrop: '/nMKdUUepR0i5zn0y1T4CsSB5chy.jpg'
+        }, {
+            id: 31,
+            title: 'Chungking Express',
+            year: 1994,
+            rating: 8.1,
+            votes: 8765,
+            runtime: '1h 42m',
+            tagline: 'A story of love and loneliness in the heart of Hong Kong.',
+            overview: 'Two intertwined stories of love, longing, and chance encounters set against the vibrant backdrop of Hong Kong\'s bustling streets.',
+            genres: ['Drama', 'Romance'],
+            country: 'Hong Kong',
+            poster: '/7TjauzD0y7k8dFhTMmMfgZPUZTE.jpg',
+            backdrop: '/suaEOtk1N1sgg2MTM7oZd2cfVp3.jpg'
+        }, {
+            id: 32,
+            title: 'In the Mood for Love',
+            year: 2000,
+            rating: 8.1,
+            votes: 7654,
+            runtime: '1h 38m',
+            tagline: 'A love story about the one that got away.',
+            overview: 'Two neighbors, both married, develop a deep emotional bond when they discover their spouses are having an affair with each other.',
+            genres: ['Drama', 'Romance'],
+            country: 'Hong Kong',
+            poster: '/9U5r7y8W6e4bH3mP2nI6jFd0s1a.jpg',
+            backdrop: '/tmU7GeKVybMWFButWEGl2M4GeiP.jpg'
+        }, {
+            id: 33,
+            title: 'The Raid',
+            year: 2011,
+            rating: 7.6,
+            votes: 9876,
+            runtime: '1h 41m',
+            tagline: 'One room. One fight. No mercy.',
+            overview: 'A SWAT team becomes trapped in a tenement building run by a ruthless mobster and his army of killers, leading to a brutal and non-stop action spectacle.',
+            genres: ['Action', 'Thriller'],
+            country: 'Indonesia',
+            poster: '/pUc61b6DFQzEz8jC02J7wHtdwY2.jpg',
+            backdrop: '/fIu1B1N1bLWl0gJX0OF3yXz0w8I.jpg'
+        }, {
+            id: 34,
+            title: 'IP Man',
+            year: 2008,
+            rating: 8.0,
+            votes: 11234,
+            runtime: '1h 46m',
+            tagline: 'The master of Wing Chun.',
+            overview: 'During the Sino-Japanese War, a martial arts master, IP Man, refuses to teach the Japanese army and must fight for his life and honor.',
+            genres: ['Action', 'Biography'],
+            country: 'Hong Kong',
+            poster: '/mZ1iP7qB1R0q7p1Q8i1Fj1K1l1.jpg',
+            backdrop: '/d6C1mzGdb0bO3ZmhTHqOcFqLl8N.jpg'
+        }, {
+            id: 35,
+            title: 'Grave of the Fireflies',
+            year: 1988,
+            rating: 8.5,
+            votes: 13456,
+            runtime: '1h 29m',
+            tagline: 'A heartbreaking tale of survival during war.',
+            overview: 'Two siblings, Seita and Setsuko, struggle to survive during the final months of World War II in Japan, facing hunger, loss, and the cruelty of war.',
+            genres: ['Animation', 'Drama', 'War'],
+            country: 'Japan',
+            poster: '/q719jXXEzOoYaps6babgKnONONX.jpg',
+            backdrop: '/m9qB8w2s4s2dKp2n4m9Qb0J7W4V.jpg'
         }];
 
         // ============================================================
         //  STATE
         // ============================================================
-        let currentMovies = [...MOVIES];
         let activeGenre = 'all';
+        let activeCountry = 'all';
         let searchQuery = '';
 
         // ============================================================
@@ -1048,10 +1350,12 @@
         const grid = document.getElementById('moviesGrid');
         const loading = document.getElementById('loadingState');
         const noResults = document.getElementById('noResults');
-        const filtersContainer = document.getElementById('filtersContainer');
+        const genreFilters = document.getElementById('genreFilters');
+        const countryFilters = document.getElementById('countryFilters');
         const searchInput = document.getElementById('searchInput');
         const movieCount = document.getElementById('movieCount');
         const genreCount = document.getElementById('genreCount');
+        const countryCount = document.getElementById('countryCount');
         const ratingAvg = document.getElementById('ratingAvg');
 
         // Modal
@@ -1063,6 +1367,7 @@
         const modalYear = document.getElementById('modalYear');
         const modalRating = document.getElementById('modalRating');
         const modalRuntime = document.getElementById('modalRuntime');
+        const modalCountry = document.getElementById('modalCountry');
         const modalOverview = document.getElementById('modalOverview');
         const modalGenres = document.getElementById('modalGenres');
 
@@ -1079,17 +1384,19 @@
                 'https://placehold.co/780x440/1a1a2e/6a6a82?text=No+Image';
         }
 
-        function getYear(date) {
-            return date;
-        }
-
         function getGenresList(movie) {
             return movie.genres.join(' • ');
         }
 
-        function getAllGenres() {
+        function getAllValues(arr, key) {
             const set = new Set();
-            MOVIES.forEach(m => m.genres.forEach(g => set.add(g)));
+            arr.forEach(item => {
+                if (key === 'genres') {
+                    item.genres.forEach(g => set.add(g));
+                } else {
+                    set.add(item[key]);
+                }
+            });
             return ['All', ...Array.from(set).sort()];
         }
 
@@ -1100,11 +1407,16 @@
                 result = result.filter(m => m.genres.includes(activeGenre));
             }
 
+            if (activeCountry !== 'all') {
+                result = result.filter(m => m.country === activeCountry);
+            }
+
             if (searchQuery.trim()) {
                 const q = searchQuery.trim().toLowerCase();
                 result = result.filter(m =>
                     m.title.toLowerCase().includes(q) ||
-                    m.genres.some(g => g.toLowerCase().includes(q))
+                    m.genres.some(g => g.toLowerCase().includes(q)) ||
+                    m.country.toLowerCase().includes(q)
                 );
             }
 
@@ -1113,8 +1425,10 @@
 
         function updateStats(movies) {
             movieCount.textContent = movies.length;
-            const allGenres = getAllGenres();
+            const allGenres = getAllValues(MOVIES, 'genres');
             genreCount.textContent = allGenres.length - 1; // exclude "All"
+            const allCountries = getAllValues(MOVIES, 'country');
+            countryCount.textContent = allCountries.length - 1;
             if (movies.length) {
                 const avg = movies.reduce((s, m) => s + m.rating, 0) / movies.length;
                 ratingAvg.textContent = avg.toFixed(1);
@@ -1143,6 +1457,7 @@
                         <div class="poster">
                             <img src="${getPosterUrl(movie.poster)}" alt="${movie.title}" loading="lazy" />
                             <span class="year-badge">${movie.year}</span>
+                            <span class="country-badge"><i class="fas fa-flag"></i> ${movie.country}</span>
                             <div class="overlay">
                                 <span class="rating-badge">
                                     <i class="fas fa-star"></i> ${movie.rating.toFixed(1)}
@@ -1162,7 +1477,6 @@
 
             updateStats(movies);
 
-            // Attach click listeners
             document.querySelectorAll('.movie-card').forEach(card => {
                 card.addEventListener('click', () => {
                     const id = parseInt(card.dataset.id);
@@ -1173,18 +1487,42 @@
         }
 
         function renderFilters() {
-            const genres = getAllGenres();
-            filtersContainer.innerHTML = genres.map(g => {
-                const key = g === 'All' ? 'all' : g;
-                const active = key === activeGenre ? 'active' : '';
-                return `<button class="filter-btn ${active}" data-genre="${key}">${g}</button>`;
-            }).join('');
+            // Genres
+            const genres = getAllValues(MOVIES, 'genres');
+            genreFilters.innerHTML = `
+                    <span class="filter-label"><i class="fas fa-tags"></i> Genre</span>
+                    ${genres.map(g => {
+                        const key = g === 'All' ? 'all' : g;
+                        const active = key === activeGenre ? 'active' : '';
+                        return `<button class="filter-btn ${active}" data-type="genre" data-value="${key}">${g}</button>`;
+                    }).join('')}
+                `;
 
-            filtersContainer.querySelectorAll('.filter-btn').forEach(btn => {
+            // Countries
+            const countries = getAllValues(MOVIES, 'country');
+            countryFilters.innerHTML = `
+                    <span class="filter-label"><i class="fas fa-globe"></i> Country</span>
+                    ${countries.map(c => {
+                        const key = c === 'All' ? 'all' : c;
+                        const active = key === activeCountry ? 'active' : '';
+                        return `<button class="filter-btn ${active}" data-type="country" data-value="${key}">${c}</button>`;
+                    }).join('')}
+                `;
+
+            // Event listeners for filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    filtersContainer.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    const type = btn.dataset.type;
+                    const value = btn.dataset.value;
+                    const group = btn.closest('.filter-group');
+                    group.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
-                    activeGenre = btn.dataset.genre;
+
+                    if (type === 'genre') {
+                        activeGenre = value;
+                    } else if (type === 'country') {
+                        activeCountry = value;
+                    }
                     applyFilters();
                 });
             });
@@ -1206,6 +1544,7 @@
             modalYear.textContent = movie.year;
             modalRating.textContent = movie.rating.toFixed(1);
             modalRuntime.textContent = movie.runtime || '—';
+            modalCountry.textContent = movie.country;
             modalOverview.textContent = movie.overview;
 
             modalGenres.innerHTML = movie.genres.map(g =>
@@ -1221,7 +1560,6 @@
             document.body.style.overflow = '';
         }
 
-        // Modal events
         modalClose.addEventListener('click', closeModal);
         modalOverlay.addEventListener('click', (e) => {
             if (e.target === modalOverlay) closeModal();
@@ -1239,7 +1577,7 @@
         });
 
         // ============================================================
-        //  THEME TOGGLE (light / dark)
+        //  THEME TOGGLE
         // ============================================================
         let isDark = true;
         document.getElementById('themeToggle').addEventListener('click', () => {
@@ -1278,40 +1616,7 @@
 
         init();
 
-        // ============================================================
-        //  OPTIONAL: TMDB API INTEGRATION (commented out)
-        //  Uncomment and replace YOUR_API_KEY to use real data.
-        // ============================================================
-        /*
-        const TMDB_API_KEY = 'YOUR_API_KEY';
-        const TMDB_BASE = 'https://api.themoviedb.org/3';
-
-        async function fetchMoviesFromTMDB() {
-          try {
-            const res = await fetch(
-              `${TMDB_BASE}/movie/popular?api_key=${TMDB_API_KEY}&language=en-US&page=1`
-            );
-            const data = await res.json();
-            return data.results.map(m => ({
-              id: m.id,
-              title: m.title,
-              year: parseInt(m.release_date?.slice(0,4)) || 0,
-              rating: m.vote_average,
-              votes: m.vote_count,
-              runtime: m.runtime ? `${Math.floor(m.runtime/60)}h ${m.runtime%60}m` : '—',
-              tagline: m.tagline || '',
-              overview: m.overview,
-              genres: m.genre_ids || [], // need to map IDs to names
-              poster: m.poster_path,
-              backdrop: m.backdrop_path,
-            }));
-          } catch (err) {
-            console.warn('TMDB fetch failed, using mock data.', err);
-            return MOVIES;
-          }
-        }
-        */
-        console.log('🎬 CineVerse loaded — enjoy your movie journey!');
+        console.log('🎬 CineVerse — now with country categories and 35 movies!');
     </script>
 
 </body>
